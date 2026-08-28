@@ -1,8 +1,4 @@
-src = Path("/mnt/data/y40l1JjSi4Rl5ShilUnnMk3olXroz1YqdXVR3Oon6EijApVgDklygGQ9fK6NLzY3rMavlNXI69h6Pz1srqocy--n.jpg")
-project = Path("/mnt/data/wedding-invitation-koryun-silvia")
-project.mkdir(parents=True, exist_ok=True)
-
-html = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -97,9 +93,7 @@ html = r'''<!DOCTYPE html>
   <script src="script.js"></script>
 </body>
 </html>
-'''
-
-css = r'''* {
+* {
   box-sizing: border-box;
 }
 
@@ -490,9 +484,7 @@ footer {
     height: 32px;
   }
 }
-'''
-
-js = r'''// Wedding date: October 26, 2026.
+// Wedding date: October 26, 2026.
 // The countdown uses the visitor's local time zone.
 const weddingDate = new Date("2026-10-26T18:00:00");
 
@@ -553,14 +545,4 @@ function buildCalendar() {
 buildCalendar();
 updateCountdown();
 setInterval(updateCountdown, 1000);
-'''
 
-(project / "index.html").write_text(html, encoding="utf-8")
-(project / "style.css").write_text(css, encoding="utf-8")
-(project / "script.js").write_text(js, encoding="utf-8")
-shutil.copy2(src, project / "photo.jpg")
-
-zip_path = Path("/mnt/data/wedding-invitation-koryun-silvia.zip")
-with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
-    for file in project.iterdir():
-        z.write(file, arcname=file.name)
