@@ -1,11 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Корюн & Сильвия — Wedding 26.10.2026</title>
+  <title>Сильвия & Корюн — Wedding 26.10.2026</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Georgia", serif;
+      background: #faf7f2;
+      color: #333;
+      text-align: center;
+    }
+
+    header {
+      padding: 60px 20px;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      color: #b08c5a;
+    }
+
+    h2 {
+      font-size: 22px;
+      color: #666;
+      margin-top: 0;
+    }
+
+    .timer {
+      margin: 40px auto;
+      font-size: 28px;
+      color: #b08c5a;
+      font-weight: bold;
+    }
+
+    .calendar {
+      width: 320px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .calendar h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      color: #b08c5a;
+    }
+
+    .calendar table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 18px;
+    }
+
+    .calendar td {
+      padding: 10px;
+      color: #555;
+    }
+
+    .highlight {
+      background: #b08c5a;
+      color: white;
+      border-radius: 50%;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Корюн & Сильвия</h1>
-  <p>Приглашаем вас на нашу свадьбу — 26 октября 2026</p>
+
+<header>
+  <h1>Сильвия & Корюн</h1>
+  <h2>26 октября 2026</h2>
+</header>
+
+<div class="timer" id="countdown"></div>
+
+<div class="calendar">
+  <h3>Октябрь 2026</h3>
+  <table>
+    <tr>
+      <td>Пн</td><td>Вт</td><td>Ср</td><td>Чт</td><td>Пт</td><td>Сб</td><td>Вс</td>
+    </tr>
+    <tr>
+      <td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td>
+    </tr>
+    <tr>
+      <td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td>
+    </tr>
+    <tr>
+      <td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td>
+    </tr>
+    <tr>
+      <td>21</td><td>22</td><td>23</td><td>24</td><td>25</td>
+      <td class="highlight">26</td>
+      <td>27</td>
+    </tr>
+    <tr>
+      <td>28</td><td>29</td><td>30</td><td>31</td><td></td><td></td><td></td>
+    </tr>
+  </table>
+</div>
+
+<script>
+  const weddingDate = new Date("2026-10-26T17:00:00");
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = weddingDate - now;
+
+    if (diff <= 0) {
+      document.getElementById("countdown").innerHTML = "Свадьба началась!";
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById("countdown").innerHTML =
+      `До свадьбы осталось: ${days} дн. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
+  }
+
+  setInterval(updateCountdown, 1000);
+</script>
+
 </body>
 </html>
