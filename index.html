@@ -148,3 +148,19 @@
 
 </body>
 </html>
+from pathlib import Path
+import zipfile, shutil
+
+base = Path("/mnt/data/wedding-invitation")
+html_path = base / "index.html"
+
+html = html_path.read_text(encoding="utf-8")
+html = html.replace('new Date("2026-10-26T18:00:00")', 'new Date("2026-10-26T17:00:00")')
+html = html.replace("Если время будет другим, измени строку `weddingDate` внизу `index.html`.",
+                    "Время свадьбы: 17:00. При необходимости его можно изменить в строке `weddingDate` внизу `index.html`.")
+html_path.write_text(html, encoding="utf-8")
+
+zip_path = Path("/mnt/data/Koryun-Silvia-Wedding-Invitation.zip")
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+    for p in base.iterdir():
+        z.write(p, arcname=p.name)
