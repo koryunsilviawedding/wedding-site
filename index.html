@@ -1,166 +1,163 @@
-<!DOCTYPE html>
+base = Path("/mnt/data/wedding-invitation-corrected")
+base.mkdir(exist_ok=True)
+src = Path("/mnt/data/1F24BD4C-6166-4676-9FFD-7A8513FA5276.jpeg")
+shutil.copy2(src, base / "couple.jpeg")
+
+# Verify the requested date.
+assert calendar.weekday(2026, 10, 26) == 0  # Monday
+
+html = r'''<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Свадьба — 26 октября 2026</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: "Georgia", serif;
-      color: #fff;
-      text-align: center;
-      background: url("tBXcoY2G4RNcM6fU7a2yx.jpeg") no-repeat center center fixed;
-      background-size: cover;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#17231c">
+<title>Корюн & Сильвия — Wedding Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--green:#17231c;--cream:#f7f1e8;--gold:#d8c18e;--text:#26342b}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--text);font-family:Montserrat,sans-serif;font-weight:300;background:var(--cream)}
+.hero{
+  min-height:100svh; position:relative; display:flex; align-items:flex-end; justify-content:center;
+  overflow:hidden; background:#17231c url("couple.jpeg") center/cover no-repeat;
+}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.05) 35%,rgba(0,0,0,.78) 100%)}
+.hero-content{position:relative;z-index:2;text-align:center;color:#fff;width:min(900px,92%);padding:5rem 1rem 4.5rem}
+.kicker{font-size:.72rem;letter-spacing:.42em;text-transform:uppercase;margin-bottom:1.2rem}
+h1{font-family:"Cormorant Garamond",serif;font-size:clamp(4.5rem,13vw,9rem);font-weight:400;line-height:.75;margin:0}
+.names{font-family:"Cormorant Garamond",serif;font-size:clamp(2.5rem,7vw,4.8rem);letter-spacing:.03em;margin-top:2rem}
+.amp{color:var(--gold);font-style:italic;margin:0 .12em}
+.hero-date{font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;margin-top:1.2rem}
+.open{display:inline-block;color:#fff;text-decoration:none;font-size:.67rem;letter-spacing:.24em;text-transform:uppercase;margin-top:2.8rem}
+.open:after{content:"↓";display:block;font-size:1.3rem;margin-top:.5rem}
+section{padding:6rem 1.2rem}.inner{max-width:850px;margin:auto}
+.paper{text-align:center;background:#fffdf9}
+.green{background:var(--green);color:#fff;text-align:center}
+.orn{color:#b99e67;font-family:"Cormorant Garamond",serif;font-size:2rem}
+.title{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:clamp(2.7rem,7vw,4.7rem);margin:.4rem 0 1.4rem}
+.copy{max-width:700px;margin:auto;font-size:1rem;line-height:2;color:#566158}
+.place{font-family:"Cormorant Garamond",serif;font-size:1.7rem;margin-top:2rem}
+.address{font-size:.85rem;color:#737c75;margin-top:.35rem}
+.btn{display:inline-block;margin-top:1.5rem;padding:.9rem 1.35rem;border:1px solid var(--text);color:var(--text);text-decoration:none;font-size:.67rem;letter-spacing:.18em;text-transform:uppercase}
+.green .copy{color:rgba(255,255,255,.72)}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;max-width:720px;margin:2.5rem auto 0}
+.unit{padding:1.2rem .4rem;border-top:1px solid rgba(255,255,255,.22);border-bottom:1px solid rgba(255,255,255,.22)}
+.num{font-family:"Cormorant Garamond",serif;font-size:clamp(2.5rem,8vw,4.2rem);line-height:1}
+.lab{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;opacity:.65;margin-top:.45rem}
+.calendar-box{max-width:620px;margin:2rem auto 0;border:1px solid rgba(38,52,43,.16);padding:1.2rem;background:#fff}
+.cal-head{display:flex;justify-content:space-between;align-items:baseline;padding:.2rem .3rem 1.1rem}
+.month{font-family:"Cormorant Garamond",serif;font-size:2.5rem}.year{font-size:.72rem;letter-spacing:.2em;color:#777}
+.week,.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.week div{text-align:center;font-size:.58rem;letter-spacing:.08em;color:#7b827d;padding:.65rem 0}
+.day{aspect-ratio:1;display:grid;place-items:center;font-family:"Cormorant Garamond",serif;font-size:1.15rem}
+.day
+ase / "index.html").write_text(html, encoding="utf-8")
+(base / "README.md").write_text(
+"""# Приглашение на свадьбу — Корюн & Сильвия
 
-    .overlay {
-      background: rgba(0,0,0,0.35);
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-    }
+Файлы:
+- `index.html`
+- `couple.jpeg`
 
-    .content {
-      position: relative;
-      padding: 60px 20px;
-      z-index: 2;
-    }
+Дата: 26 октября 2026, 17:00.
+Календарь построен с понедельника по воскресенье; 26 октября 2026 года выделено как понедельник.
+""", encoding="utf-8")
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 20px;
-      font-weight: normal;
-    }
-
-    .intro {
-      font-size: 22px;
-      max-width: 700px;
-      margin: 0 auto 40px auto;
-      line-height: 1.4;
-    }
-
-    .timer {
-      margin: 30px auto;
-      font-size: 26px;
-      font-weight: bold;
-    }
-
-    .calendar {
-      width: 340px;
-      margin: 40px auto;
-      padding: 20px;
-      background: rgba(255,255,255,0.85);
-      border-radius: 12px;
-      color: #333;
-    }
-
-    .calendar h3 {
-      margin: 0 0 10px;
-      font-size: 24px;
-      color: #b08c5a;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 18px;
-    }
-
-    td {
-      padding: 10px;
-    }
-
-    .highlight {
-      background: #b08c5a;
-      color: white;
-      border-radius: 50%;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="overlay"></div>
-
-<div class="content">
-
-  <h1>Сильвия & Корюн</h1>
-
-  <div class="intro">
-    Уважаемые гости, приглашаем вас на торжественное мероприятие, которое состоится
-    <b>26 октября</b> в ресторане <b>Робинзон Крузо</b> по адресу <b>Тепличная 78/1</b>.
-  </div>
-
-  <div class="timer" id="countdown"></div>
-
-  <div class="calendar">
-    <h3>Октябрь 2026</h3>
-    <table>
-      <tr>
-        <td>Пн</td><td>Вт</td><td>Ср</td><td>Чт</td><td>Пт</td><td>Сб</td><td>Вс</td>
-      </tr>
-
-      <tr>
-        <td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td>
-      </tr>
-      <tr>
-        <td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td>
-      </tr>
-      <tr>
-        <td>13</td><td>14</td><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td>
-      </tr>
-      <tr>
-        <td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td class="highlight">26</td>
-      </tr>
-      <tr>
-        <td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td></td><td></td>
-      </tr>
-    </table>
-  </div>
-
-</div>
-
-<script>
-  const weddingDate = new Date("2026-10-26T17:00:00");
-
-  function updateCountdown() {
-    const now = new Date();
-    const diff = weddingDate - now;
-
-    if (diff <= 0) {
-      document.getElementById("countdown").innerHTML = "Свадьба началась!";
-      return;
-    }
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const minutes = Math.floor((diff / (1000 * 60)) % 60);
-    const seconds = Math.floor((diff / 1000) % 60);
-
-    document.getElementById("countdown").innerHTML =
-      `До свадьбы осталось: ${days} дн. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
-  }
-
-  setInterval(updateCountdown, 1000);
-</script>
-
-</body>
-</html>
-from pathlib import Path
-import zipfile, shutil
-
-base = Path("/mnt/data/wedding-invitation")
-html_path = base / "index.html"
-
-html = html_path.read_text(encoding="utf-8")
-html = html.replace('new Date("2026-10-26T18:00:00")', 'new Date("2026-10-26T17:00:00")')
-html = html.replace("Если время будет другим, измени строку `weddingDate` внизу `index.html`.",
-                    "Время свадьбы: 17:00. При необходимости его можно изменить в строке `weddingDate` внизу `index.html`.")
-html_path.write_text(html, encoding="utf-8")
-
-zip_path = Path("/mnt/data/Koryun-Silvia-Wedding-Invitation.zip")
+zip_path = Path("/mnt/data/Koryun-Silvia-Wedding-Invitation-CORRECTED.zip")
 with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
     for p in base.iterdir():
         z.write(p, arcname=p.name)
+
+print("Исправленная версия создана:", zip_path)
+print("26 октября 2026 — понедельник.").wedding
+{background:var(--green);color:#fff;border-radius:50%;margin:8%;position:relative}
+.day.wedding:after{content:"♥";position:absolute;bottom:8%;font-size:.45rem;color:var(--gold)}
+.closing{min-height:50vh;display:grid;place-items:center;text-align:center;background:linear-gradient(rgba(23,35,28,.84),rgba(23,35,28,.9)),url("couple.jpeg") center/cover;color:#fff}
+.closing h2{font-family:"Cormorant Garamond",serif;font-size:clamp(3.2rem,9vw,6rem);font-weight:400;margin:0}
+.closing p{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65)}
+footer{text-align:center;background:var(--green);color:rgba(255,255,255,.45);padding:1rem;font-size:.6rem;letter-spacing:.1em}
+max-width:560px{section{padding:4.5rem 1rem}.hero-content{padding-bottom:3rem}.kicker{letter-spacing:.28em}.countdown{gap:.25rem}.unit{padding:.9rem .15rem}.calendar-box{padding:.7rem}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-content">
+    <div class="kicker">Wedding Day</div>
+    <h1>Наша свадьба</h1>
+    <div class="names">Корюн <span class="amp">&amp;</span> Сильвия</div>
+    <div class="hero-date">26 октября 2026 · 17:00</div>
+    <a class="open" href="#invitation">Открыть приглашение</a>
+  </div>
+</header>
+
+<section class="paper" id="invitation">
+  <div class="inner">
+    <div class="orn">✦</div>
+    <h2 class="title">Дорогие гости</h2>
+    <p class="copy">Уважаемые гости, приглашаем вас на торжественное мероприятие, которое состоится <strong>26 октября</strong> в <strong>17:00</strong> в ресторане <strong>«Робинзон Крузо»</strong>.</p>
+    <div class="place">Ресторан «Робинзон Крузо»</div>
+    <div class="address">Тепличная 78/1</div>
+    <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Робинзон+Крузо+Тепличная+78%2F1">Открыть на карте</a>
+  </div>
+</section>
+
+<section class="green">
+  <div class="inner">
+    <div class="orn">♡</div>
+    <h2 class="title">До нашей свадьбы</h2>
+    <div class="countdown" aria-live="polite">
+      <div class="unit"><div class="num" id="days">00</div><div class="lab">Дней</div></div>
+      <div class="unit"><div class="num" id="hours">00</div><div class="lab">Часов</div></div>
+      <div class="unit"><div class="num" id="minutes">00</div><div class="lab">Минут</div></div>
+      <div class="unit"><div class="num" id="seconds">00</div><div class="lab">Секунд</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="paper">
+  <div class="inner">
+    <div class="orn">✧</div>
+    <h2 class="title">Сохрани эту дату</h2>
+    <div class="calendar-box">
+      <div class="cal-head"><div class="month">Октябрь</div><div class="year">2026</div></div>
+      <div class="week">
+        <div>ПН</div><div>ВТ</div><div>СР</div><div>ЧТ</div><div>ПТ</div><div>СБ</div><div>ВС</div>
+      </div>
+      <div class="days" id="daysGrid"></div>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div>
+    <h2>Корюн &amp; Сильвия</h2>
+    <p>Будем рады разделить этот день с вами</p>
+  </div>
+</section>
+<footer>26.10.2026 · 17:00 · Wedding Day</footer>
+
+<script>
+const weddingDate = new Date("2026-10-26T17:00:00");
+function countdown(){
+  let d = weddingDate - new Date();
+  if(d < 0) d = 0;
+  document.getElementById("days").textContent = String(Math.floor(d/86400000)).padStart(2,"0");
+  document.getElementById("hours").textContent = String(Math.floor(d/3600000)%24).padStart(2,"0");
+  document.getElementById("minutes").textContent = String(Math.floor(d/60000)%60).padStart(2,"0");
+  document.getElementById("seconds").textContent = String(Math.floor(d/1000)%60).padStart(2,"0");
+}
+countdown(); setInterval(countdown,1000);
+
+// Октябрь 2026: 1-е число — четверг, 26-е — понедельник.
+const grid=document.getElementById("daysGrid");
+const firstDayMondayBased=4;
+for(let i=1;i<firstDayMondayBased;i++){const e=document.createElement("div");e.className="day";grid.appendChild(e)}
+for(let n=1;n<=31;n++){const e=document.createElement("div");e.className="day"+(n===26?" wedding":"");e.textContent=n;grid.appendChild(e)}
+</script>
+</body>
+</html>'''
