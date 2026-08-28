@@ -564,6 +564,3 @@ zip_path = Path("/mnt/data/wedding-invitation-koryun-silvia.zip")
 with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
     for file in project.iterdir():
         z.write(file, arcname=file.name)
-
-print(f"Готово: {zip_path}")
-print("В архиве: index.html, style.css, script.js и photo.jpg")
