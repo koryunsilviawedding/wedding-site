@@ -92,68 +92,7 @@
 
   <script src="script.js"></script>
 </body>
-</html>// Wedding date: October 26, 2026.
-// The countdown uses the visitor's local time zone.
-const weddingDate = new Date("2026-10-26T18:00:00");
-
-function updateCountdown() {
-  const now = new Date();
-  const diff = weddingDate - now;
-
-  const ids = ["days", "hours", "minutes", "seconds"];
-
-  if (diff <= 0) {
-    document.getElementById("countdown").innerHTML =
-      '<div style="grid-column:1/-1;padding:35px;font-family:Cormorant Garamond,serif;font-size:36px;">Сегодня наш день ♥</div>';
-    return;
-  }
-
-  const days = Math.floor(diff / 86400000);
-  const hours = Math.floor((diff / 3600000) % 24);
-  const minutes = Math.floor((diff / 60000) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-
-  [days, hours, minutes, seconds].forEach((value, i) => {
-    document.getElementById(ids[i]).textContent = String(value).padStart(2, "0");
-  });
-}
-
-function buildCalendar() {
-  const year = 2026;
-  const month = 9; // October, zero-based
-  const weddingDay = 26;
-  const calendar = document.getElementById("calendar");
-
-  const firstDay = new Date(year, month, 1).getDay();
-  const mondayIndex = firstDay === 0 ? 6 : firstDay - 1;
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-  for (let i = 0; i < mondayIndex; i++) {
-    const empty = document.createElement("div");
-    empty.className = "day empty";
-    empty.textContent = "0";
-    calendar.appendChild(empty);
-  }
-
-  for (let day = 1; day <= daysInMonth; day++) {
-    const cell = document.createElement("div");
-    cell.className = "day";
-    cell.textContent = day;
-
-    if (day === weddingDay) {
-      cell.classList.add("wedding");
-      cell.setAttribute("aria-label", "26 октября — день свадьбы");
-      cell.title = "День свадьбы ♥";
-    }
-
-    calendar.appendChild(cell);
-  }
-}
-
-buildCalendar();
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
+</html>
 * {
   box-sizing: border-box;
 }
@@ -544,5 +483,65 @@ footer {
     width: 32px;
     height: 32px;
   }
+}// Wedding date: October 26, 2026.
+// The countdown uses the visitor's local time zone.
+const weddingDate = new Date("2026-10-26T18:00:00");
+
+function updateCountdown() {
+  const now = new Date();
+  const diff = weddingDate - now;
+
+  const ids = ["days", "hours", "minutes", "seconds"];
+
+  if (diff <= 0) {
+    document.getElementById("countdown").innerHTML =
+      '<div style="grid-column:1/-1;padding:35px;font-family:Cormorant Garamond,serif;font-size:36px;">Сегодня наш день ♥</div>';
+    return;
+  }
+
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff / 3600000) % 24);
+  const minutes = Math.floor((diff / 60000) % 60);
+  const seconds = Math.floor((diff / 1000) % 60);
+
+  [days, hours, minutes, seconds].forEach((value, i) => {
+    document.getElementById(ids[i]).textContent = String(value).padStart(2, "0");
+  });
 }
+
+function buildCalendar() {
+  const year = 2026;
+  const month = 9; // October, zero-based
+  const weddingDay = 26;
+  const calendar = document.getElementById("calendar");
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const mondayIndex = firstDay === 0 ? 6 : firstDay - 1;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < mondayIndex; i++) {
+    const empty = document.createElement("div");
+    empty.className = "day empty";
+    empty.textContent = "0";
+    calendar.appendChild(empty);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const cell = document.createElement("div");
+    cell.className = "day";
+    cell.textContent = day;
+
+    if (day === weddingDay) {
+      cell.classList.add("wedding");
+      cell.setAttribute("aria-label", "26 октября — день свадьбы");
+      cell.title = "День свадьбы ♥";
+    }
+
+    calendar.appendChild(cell);
+  }
+}
+
+buildCalendar();
+updateCountdown();
+setInterval(updateCountdown, 1000);
 
