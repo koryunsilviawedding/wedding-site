@@ -386,6 +386,12 @@ h2 {
 @keyframes pulseMusic{50%{transform:scale(1.1);box-shadow:0 0 0 10px rgba(240,212,179,.13)}}
 
 </style>
+
+<style id="external-music-style">
+.music-toggle{position:fixed;top:20px;right:20px;z-index:9999;width:54px;height:54px;border-radius:50%;border:1px solid rgba(255,255,255,.7);background:rgba(30,20,15,.7);color:#fff;font-size:24px;cursor:pointer;backdrop-filter:blur(6px)}
+.music-toggle.playing{animation:musicPulse 1.2s ease-in-out infinite}
+@keyframes musicPulse{50%{transform:scale(1.1)}}
+</style>
 </head>
 
 <body>
@@ -560,5 +566,22 @@ slider.addEventListener('touchend', e => {
 
 </script>
 
+
+<!-- Музыка: положите music.mp3 рядом с index.html -->
+<audio id="weddingMusic" preload="auto" loop>
+  <source src="./music.mp3" type="audio/mpeg">
+</audio>
+<button id="musicToggle" class="music-toggle" type="button" aria-label="Включить музыку">♪</button>
+<script id="external-music-script">
+(function(){
+ const music=document.getElementById('weddingMusic');
+ const btn=document.getElementById('musicToggle');
+ if(!music||!btn) return;
+ function state(on){btn.classList.toggle('playing',on);btn.textContent=on?'❚❚':'♪';btn.setAttribute('aria-label',on?'Выключить музыку':'Включить музыку');}
+ btn.addEventListener('click',async()=>{try{if(music.paused){await music.play();state(true)}else{music.pause();state(false)}}catch(e){console.error('Не удалось запустить музыку:',e);alert('Музыка не запустилась. Проверь, что файл называется music.mp3 и лежит рядом с index.html.');state(false)}});
+ music.addEventListener('play',()=>state(true)); music.addEventListener('pause',()=>state(false));
+ music.addEventListener('error',()=>{console.error('Ошибка загрузки ./music.mp3',music.error);state(false)});
+})();
+</script>
 </body>
 </html>
