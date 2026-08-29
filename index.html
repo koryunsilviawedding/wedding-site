@@ -401,8 +401,9 @@ h2 {
 <div class="fixed-dark"></div>
 
 <button class="music-btn" id="musicBtn" type="button" aria-label="Включить музыку" title="Братья Шахунц — Жених и невеста">♪</button>
-<audio id="weddingMusic" loop preload="metadata">
-  <source src="music.mp3" type="audio/mpeg">
+<audio id="weddingMusic" loop preload="auto" playsinline>
+  <source src="./music.mp3" type="audio/mpeg">
+  Ваш браузер не поддерживает воспроизведение аудио.
 </audio>
 
 <main class="page">
@@ -568,7 +569,7 @@ slider.addEventListener('touchend', e => {
 </script>
 
 <script>
-  /* Музыка запускается напрямую из файла music.mp3 в репозитории. */
+  /* Музыка: локальный MP3 из той же папки, что и index.html. */
   const musicBtn = document.getElementById('musicBtn');
   const weddingMusic = document.getElementById('weddingMusic');
 
@@ -579,25 +580,29 @@ slider.addEventListener('touchend', e => {
     musicBtn.title = isPlaying ? 'Выключить музыку' : 'Братья Шахунц — Жених и невеста';
   }
 
-  weddingMusic.volume = 0.45;
-  musicBtn.addEventListener('click', async () => {
-    try {
-      if (weddingMusic.paused) {
-        await weddingMusic.play();
-        setMusicButton(true);
-      } else {
-        weddingMusic.pause();
-        setMusicButton(false);
-      }
-    } catch (error) {
-      console.error(error);
+  weddingMusic.volume = 0.8;
+
+  musicBtn.addEventListener('click', () => {
+    if (weddingMusic.paused) {
+      weddingMusic.play()
+        .then(() => setMusicButton(true))
+        .catch((error) => {
+          console.error('Ошибка запуска музыки:', error);
+          alert('Музыка не загрузилась. Проверьте, что файл music.mp3 находится рядом с index.html в GitHub.');
+          setMusicButton(false);
+        });
+    } else {
+      weddingMusic.pause();
       setMusicButton(false);
-      alert('Не удалось включить музыку. Попробуйте нажать на значок ещё раз.');
     }
   });
 
   weddingMusic.addEventListener('play', () => setMusicButton(true));
   weddingMusic.addEventListener('pause', () => setMusicButton(false));
+  weddingMusic.addEventListener('error', () => {
+    console.error('Ошибка загрузки music.mp3:', weddingMusic.error);
+    setMusicButton(false);
+  });
 </script>
 
 </body>
