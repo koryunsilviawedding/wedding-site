@@ -567,39 +567,96 @@ slider.addEventListener('touchend', e => {
 </script>
 
 <script>
-  // МОТ — «По буквам». Музыка запускается только после нажатия гостя:
-  // браузеры блокируют автоматическое воспроизведение со звуком.
-  let ytPlayer = null;
-  let musicReady = false;
+  /* Музыка: МОТ — «По буквам».
+     Запускается только после нажатия на кнопку. */
   const musicBtn = document.getElementById('musicBtn');
+  const YT_VIDEO_ID = 'BpJA_Xh75as';
+  let ytPlayer = null;
+  let playerReady = false;
+  let apiPromise = null;
 
-  function onYouTubeIframeAPIReady(){
-    ytPlayer = new YT.Player('yt-music-player', {
-      height:'1', width:'1',
-      videoId:'BpJA_Xh75as',
-      playerVars:{ autoplay:0, controls:0, loop:1, playlist:'BpJA_Xh75as', rel:0 },
-      events:{ onReady:()=>{ musicReady=true; } }
-    });
+  function setMusicButton(isPlaying) {
+    musicBtn.classList.toggle('playing', isPlaying);
+    musicBtn.textContent = isPlaying ? '♫' : '♪';
+    musicBtn.setAttribute('aria-label', isPlaying ? 'Выключить музыку' : 'Включить музыку');
+    musicBtn.title = isPlaying ? 'Выключить музыку' : 'МОТ — По буквам';
   }
 
-  musicBtn.addEventListener('click', ()=>{
-    if(!musicReady || !ytPlayer) return;
-    const state = ytPlayer.getPlayerState();
-    if(state === YT.PlayerState.PLAYING){
-      ytPlayer.pauseVideo();
-      musicBtn.classList.remove('playing');
-      musicBtn.textContent='♪';
-      musicBtn.setAttribute('aria-label','Включить музыку');
-    }else{
-      ytPlayer.setVolume(45);
-      ytPlayer.playVideo();
-      musicBtn.classList.add('playing');
-      musicBtn.textContent='♫';
-      musicBtn.setAttribute('aria-label','Выключить музыку');
+  function loadYouTubePlayer() {
+    if (apiPromise) return apiPromise;
+
+    apiPromise = new Promise((resolve, reject) => {
+      const timer = setTimeout(() => reject(new Error('YouTube не загрузился')), 12000);
+
+      window.onYouTubeIframeAPIReady = () => {
+        ytPlayer = new YT.Player('yt-music-player', {
+          height: '1',
+          width: '1',
+          videoId: YT_VIDEO_ID,
+          playerVars: {
+            autoplay: 0,
+            controls: 0,
+            loop: 1,
+            playlist: YT_VIDEO_ID,
+            playsinline: 1,
+            rel: 0,
+            enablejsapi: 1,
+            origin: window.location.origin
+          },
+          events: {
+            onReady: () => {
+              clearTimeout(timer);
+              playerReady = true;
+              resolve(ytPlayer);
+            },
+            onError: () => {
+              clearTimeout(timer);
+              reject(new Error('Видео недоступно для воспроизведения'));
+            }
+          }
+        });
+      };
+
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.async = true;
+      script.onerror = () => {
+        clearTimeout(timer);
+        reject(new Error('Не удалось загрузить YouTube'));
+      };
+      document.head.appendChild(script);
+    });
+
+    return apiPromise;
+  }
+
+  musicBtn.addEventListener('click', async () => {
+    try {
+      if (!playerReady) {
+        musicBtn.textContent = '…';
+        musicBtn.disabled = true;
+        await loadYouTubePlayer();
+        musicBtn.disabled = false;
+      }
+
+      const state = ytPlayer.getPlayerState();
+      if (state === YT.PlayerState.PLAYING) {
+        ytPlayer.pauseVideo();
+        setMusicButton(false);
+      } else {
+        ytPlayer.unMute();
+        ytPlayer.setVolume(45);
+        ytPlayer.playVideo();
+        setMusicButton(true);
+      }
+    } catch (error) {
+      console.error(error);
+      musicBtn.disabled = false;
+      setMusicButton(false);
+      alert('Музыка не загрузилась. Возможно, YouTube заблокирован или недоступен в этом браузере.');
     }
   });
 </script>
-<script src="https://www.youtube.com/iframe_api"></script>
 
 </body>
 </html>
