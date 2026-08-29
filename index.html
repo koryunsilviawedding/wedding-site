@@ -341,42 +341,57 @@ h2 {
 }
 
 
-/* Анимированная стрелка вниз на первом экране */
+/* Одна большая анимированная стрелка вниз */
 .scroll-hint{
   position:absolute;
   left:50%;
-  bottom:34px;
+  bottom:28px;
   transform:translateX(-50%);
-  width:42px;
-  height:58px;
+  width:76px;
+  height:76px;
   display:flex;
-  flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:2px;
   color:#fff;
   text-decoration:none;
-  text-shadow:0 2px 12px rgba(0,0,0,.75);
+  text-shadow:0 4px 18px rgba(0,0,0,.8);
   z-index:5;
-  animation:scrollHint 1.7s ease-in-out infinite;
-}
-.scroll-hint span{
-  font-family:Arial,sans-serif;
-  font-size:8px;
-  letter-spacing:2px;
-  opacity:.9;
+  animation:bigArrow 1.45s ease-in-out infinite;
 }
 .scroll-hint i{
-  width:15px;
-  height:15px;
-  border-right:2px solid #fff;
-  border-bottom:2px solid #fff;
+  width:30px;
+  height:30px;
+  border-right:4px solid #fff;
+  border-bottom:4px solid #fff;
   transform:rotate(45deg);
+  filter:drop-shadow(0 3px 8px rgba(0,0,0,.65));
 }
-@keyframes scrollHint{
-  0%,100%{transform:translate(-50%,0);opacity:.65}
-  50%{transform:translate(-50%,10px);opacity:1}
+@keyframes bigArrow{
+  0%,100%{transform:translate(-50%,0);opacity:.72}
+  50%{transform:translate(-50%,16px);opacity:1}
 }
+
+/* Музыка */
+.music-btn{
+  position:fixed;
+  top:18px;
+  right:18px;
+  z-index:30;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.75);
+  background:rgba(35,24,18,.62);
+  color:#fff;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  font-size:22px;
+  cursor:pointer;
+  box-shadow:0 5px 20px rgba(0,0,0,.25);
+}
+.music-btn.playing{animation:pulseMusic 1.2s ease-in-out infinite}
+@keyframes pulseMusic{50%{transform:scale(1.1);box-shadow:0 0 0 10px rgba(240,212,179,.13)}}
+#yt-music-player{position:fixed;width:1px;height:1px;left:-10px;bottom:-10px;opacity:0;pointer-events:none}
 
 </style>
 </head>
@@ -385,6 +400,9 @@ h2 {
 
 <div class="fixed-photo"></div>
 <div class="fixed-dark"></div>
+
+<button class="music-btn" id="musicBtn" type="button" aria-label="Включить музыку" title="МОТ — По буквам">♪</button>
+<div id="yt-music-player" aria-hidden="true"></div>
 
 <main class="page">
 
@@ -395,7 +413,7 @@ h2 {
       <p class="names">Koryun &amp; Silvia</p>
       <p class="date">26 ОКТЯБРЯ 2026</p>
     </div>
-    <a class="scroll-hint" href="#invitation" aria-label="Прокрутить вниз к приглашению"><span>ВНИЗ</span><i></i></a>
+    <a class="scroll-hint" href="#invitation" aria-label="Прокрутить вниз к приглашению"><i></i></a>
   </section>
 
   <!-- 2. ПРИГЛАШЕНИЕ -->
@@ -547,5 +565,41 @@ slider.addEventListener('touchend', e => {
 }, {passive:true});
 
 </script>
+
+<script>
+  // МОТ — «По буквам». Музыка запускается только после нажатия гостя:
+  // браузеры блокируют автоматическое воспроизведение со звуком.
+  let ytPlayer = null;
+  let musicReady = false;
+  const musicBtn = document.getElementById('musicBtn');
+
+  function onYouTubeIframeAPIReady(){
+    ytPlayer = new YT.Player('yt-music-player', {
+      height:'1', width:'1',
+      videoId:'BpJA_Xh75as',
+      playerVars:{ autoplay:0, controls:0, loop:1, playlist:'BpJA_Xh75as', rel:0 },
+      events:{ onReady:()=>{ musicReady=true; } }
+    });
+  }
+
+  musicBtn.addEventListener('click', ()=>{
+    if(!musicReady || !ytPlayer) return;
+    const state = ytPlayer.getPlayerState();
+    if(state === YT.PlayerState.PLAYING){
+      ytPlayer.pauseVideo();
+      musicBtn.classList.remove('playing');
+      musicBtn.textContent='♪';
+      musicBtn.setAttribute('aria-label','Включить музыку');
+    }else{
+      ytPlayer.setVolume(45);
+      ytPlayer.playVideo();
+      musicBtn.classList.add('playing');
+      musicBtn.textContent='♫';
+      musicBtn.setAttribute('aria-label','Выключить музыку');
+    }
+  });
+</script>
+<script src="https://www.youtube.com/iframe_api"></script>
+
 </body>
 </html>
