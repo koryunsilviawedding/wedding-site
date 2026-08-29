@@ -391,7 +391,6 @@ h2 {
 }
 .music-btn.playing{animation:pulseMusic 1.2s ease-in-out infinite}
 @keyframes pulseMusic{50%{transform:scale(1.1);box-shadow:0 0 0 10px rgba(240,212,179,.13)}}
-#yt-music-player{position:fixed;width:1px;height:1px;left:-10px;bottom:-10px;opacity:0;pointer-events:none}
 
 </style>
 </head>
@@ -401,8 +400,10 @@ h2 {
 <div class="fixed-photo"></div>
 <div class="fixed-dark"></div>
 
-<button class="music-btn" id="musicBtn" type="button" aria-label="Включить музыку" title="МОТ — По буквам">♪</button>
-<div id="yt-music-player" aria-hidden="true"></div>
+<button class="music-btn" id="musicBtn" type="button" aria-label="Включить музыку" title="Братья Шахунц — Жених и невеста">♪</button>
+<audio id="weddingMusic" loop preload="metadata">
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
 
 <main class="page">
 
@@ -567,95 +568,36 @@ slider.addEventListener('touchend', e => {
 </script>
 
 <script>
-  /* Музыка: МОТ — «По буквам».
-     Запускается только после нажатия на кнопку. */
+  /* Музыка запускается напрямую из файла music.mp3 в репозитории. */
   const musicBtn = document.getElementById('musicBtn');
-  const YT_VIDEO_ID = 'BpJA_Xh75as';
-  let ytPlayer = null;
-  let playerReady = false;
-  let apiPromise = null;
+  const weddingMusic = document.getElementById('weddingMusic');
 
   function setMusicButton(isPlaying) {
     musicBtn.classList.toggle('playing', isPlaying);
     musicBtn.textContent = isPlaying ? '♫' : '♪';
     musicBtn.setAttribute('aria-label', isPlaying ? 'Выключить музыку' : 'Включить музыку');
-    musicBtn.title = isPlaying ? 'Выключить музыку' : 'МОТ — По буквам';
+    musicBtn.title = isPlaying ? 'Выключить музыку' : 'Братья Шахунц — Жених и невеста';
   }
 
-  function loadYouTubePlayer() {
-    if (apiPromise) return apiPromise;
-
-    apiPromise = new Promise((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error('YouTube не загрузился')), 12000);
-
-      window.onYouTubeIframeAPIReady = () => {
-        ytPlayer = new YT.Player('yt-music-player', {
-          height: '1',
-          width: '1',
-          videoId: YT_VIDEO_ID,
-          playerVars: {
-            autoplay: 0,
-            controls: 0,
-            loop: 1,
-            playlist: YT_VIDEO_ID,
-            playsinline: 1,
-            rel: 0,
-            enablejsapi: 1,
-            origin: window.location.origin
-          },
-          events: {
-            onReady: () => {
-              clearTimeout(timer);
-              playerReady = true;
-              resolve(ytPlayer);
-            },
-            onError: () => {
-              clearTimeout(timer);
-              reject(new Error('Видео недоступно для воспроизведения'));
-            }
-          }
-        });
-      };
-
-      const script = document.createElement('script');
-      script.src = 'https://www.youtube.com/iframe_api';
-      script.async = true;
-      script.onerror = () => {
-        clearTimeout(timer);
-        reject(new Error('Не удалось загрузить YouTube'));
-      };
-      document.head.appendChild(script);
-    });
-
-    return apiPromise;
-  }
-
+  weddingMusic.volume = 0.45;
   musicBtn.addEventListener('click', async () => {
     try {
-      if (!playerReady) {
-        musicBtn.textContent = '…';
-        musicBtn.disabled = true;
-        await loadYouTubePlayer();
-        musicBtn.disabled = false;
-      }
-
-      const state = ytPlayer.getPlayerState();
-      if (state === YT.PlayerState.PLAYING) {
-        ytPlayer.pauseVideo();
-        setMusicButton(false);
-      } else {
-        ytPlayer.unMute();
-        ytPlayer.setVolume(45);
-        ytPlayer.playVideo();
+      if (weddingMusic.paused) {
+        await weddingMusic.play();
         setMusicButton(true);
+      } else {
+        weddingMusic.pause();
+        setMusicButton(false);
       }
     } catch (error) {
       console.error(error);
-      musicBtn.disabled = false;
       setMusicButton(false);
-      alert('Музыка не загрузилась. Возможно, YouTube заблокирован или недоступен в этом браузере.');
+      alert('Не удалось включить музыку. Попробуйте нажать на значок ещё раз.');
     }
   });
+
+  weddingMusic.addEventListener('play', () => setMusicButton(true));
+  weddingMusic.addEventListener('pause', () => setMusicButton(false));
 </script>
 
 </body>
