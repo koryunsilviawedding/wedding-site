@@ -1,134 +1,69 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Свадьба Koryun & Silvia</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+margin: 15px 0 30px;
+        }
+
+        .btn-rsvp:hover {
+            background: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-rsvp span {
+            border: 1px solid #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        /* Акцентная дата внизу */
+        .date-footer {
+            font-size: 3.2rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            margin-top: 10px;
+        }
+
+        /* Адаптированность для мобильных телефонов */
+        max-width: 600px {
+            .navbar { gap: 15px; padding: 15px 10px; }
+            .navbar a { font-size: 1rem; }
+            .main-subtitle { font-size: 2.8rem; }
+            .names { font-size: 3.5rem; }
+            .card { padding: 25px 15px; }
+            .card p { font-size: 1.2rem; }
+            .card .address { font-size: 1.3rem; }
+            .date-footer { font-size: 2.3rem; }
+        }
+    </style>
 </head>
 <body>
+
     <header class="navbar">
         <a href="#home">Home</a>
-        <a href="#rsvp">RSVP</a>
         <a href="#details">Details</a>
         <a href="#photos">Photos</a>
+        <a href="#rsvp">RSVP</a>
     </header>
 
     <main class="container">
-        <h1 class="title">Свадьба Koryun & Silvia</h1>
-        <p class="subtitle">Wedding day: 26 октября</p>
+        <div class="header-title">
+            <h1 class="main-subtitle">Wedding Day</h1>
+            <div class="names">Koryun & Silvia</div>
+        </div>
 
         <div class="card">
             <p>Уважаемые гости, приглашаем вас на торжественное мероприятие, которое состоится 26 октября</p>
             <p class="address">в ресторане по адресу: Тепличная 78/1, «Робинзон Крузо»</p>
         </div>
 
-        <a href="#rsvp" class="btn-rsvp">RSVP</a>
+        <a href="#rsvp" class="btn-rsvp">
+            <span>RSVP</span> ПРИНЯТЬ ПРИГЛАШЕНИЕ
+        </a>
 
-        <div class="date-highlight">
+        <div class="date-footer">
             26 октября
         </div>
     </main>
+
 </body>
 </html>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Cormorant Garamond', serif;
-    background: url('couple.jpg') no-repeat center center fixed;
-    background-size: cover;
-    min-height: 100vh;
-    color: #ffffff;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.navbar {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.4), transparent);
-}
-
-.navbar a {
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-}
-
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 20px;
-    text-align: center;
-}
-
-.title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 3.5rem;
-    font-weight: 400;
-    margin-bottom: 5px;
-}
-
-.subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 40px;
-    font-style: italic;
-}
-
-.card {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 40px 30px;
-    margin: 0 auto 30px;
-    max-width: 650px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    font-size: 1.6rem;
-    line-height: 1.5;
-    font-style: italic;
-    color: #ffffff;
-}
-
-.address {
-    margin-top: 15px;
-    font-weight: 600;
-}
-
-.btn-rsvp {
-    display: inline-block;
-    padding: 10px 40px;
-    background: rgba(255, 255, 255, 0.4);
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    border-radius: 30px;
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    transition: all 0.3s ease;
-}
-
-.btn-rsvp:hover {
-    background: rgba(255, 255, 255, 0.7);
-    color: #333;
-}
-
-.date-highlight {
-    font-size: 3rem;
-    margin-top: 40px;
-    font-style: italic;
-}
-
-max-width: 600px {
-    .title { font-size: 2.3rem; }
-    .card { font-size: 1.2rem; padding: 25px 15px; }
-    .date-highlight { font-size: 2.2rem; }
-}
